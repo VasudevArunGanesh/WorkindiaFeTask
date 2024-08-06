@@ -1,39 +1,54 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React, { useEffect, useState } from 'react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { IonContent, IonPage, IonList, IonItem, IonLabel } from '@ionic/react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Home: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('https://run.mocky.io/v3/200998b7-f48d-4456-a639-0b5d2d275c12')
+    axios.get('https://api.example.com/items')
       .then(response => {
-        setData(response.data);
+        setItems(response.data);
         setLoading(false);
       })
       .catch(error => {
-        console.error(error);
+        console.error('Error fetching items:', error);
         setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <IonPage>
+        <Header title="explore"/>
+        <IonContent>
+          <p>Loading...</p>
+        </IonContent>
+        <Footer />
+      </IonPage>
+    );
+  }
+
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Blank</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
+      <Header title="explore"/>
+      <IonContent>
+        <IonList>
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <IonItem key={index}>
+                <IonLabel>{item.name}</IonLabel>
+              </IonItem>
+            ))
+          ) : (
+            <p>No items found.</p>
+          )}
+        </IonList>
       </IonContent>
+      <Footer />
     </IonPage>
   );
 };

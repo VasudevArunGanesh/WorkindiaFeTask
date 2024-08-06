@@ -1,0 +1,28 @@
+.header-toolbar {
+    --background: #87CEFA; 
+    color: white;
+  }
+  
+
+.footer-toolbar {
+  --background: #f8f8f8; 
+  color: black;
+  text-align: center;
+}
+
+ion-tab-bar {
+  --background: #f8f8f8; 
+  color: black;
+}
+
+ion-tab-button {
+  --color-selected: #000;
+  --color: #666; 
+}
+
+.tab-active {
+  --color: #000; 
+  --color-selected: #000; 
+}
+
+  
